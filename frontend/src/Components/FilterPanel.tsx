@@ -1,0 +1,63 @@
+import React from "react";
+import { useFilters } from "../Context/FiltersContext";
+import OrgsSelect from "./Inputs/OrgsSelect";
+import IntervalSelect from "./Inputs/IntervalSelect";
+import { Input } from "./ui/input";
+import { Card, CardContent } from "./ui/card";
+import { Label } from "./ui/label";
+import OrgSearchTextInput from "./Inputs/OrgSearchTextInput";
+
+const FilterPanel: React.FC = () => {
+  const { filters, updateFilter } = useFilters();
+
+  return (
+    <Card>
+      <CardContent className="flex flex-col gap-4 w-full">
+        <OrgsSelect
+          name="orgIds"
+          value={filters.orgIds}
+          maxSelection={5}
+          onChange={(ids) => updateFilter("orgIds", ids)}
+          orgSearchText={filters.orgSearchText}
+        />
+        <div className="flex flex-col lg:flex-row  gap-4 w-full items-end">
+          <OrgSearchTextInput
+            name="orgSearchText"
+            value={filters.orgSearchText}
+            onChange={(v) => updateFilter("orgSearchText", v)}
+            placeholder="Search in names and descriptions"
+          />
+
+          <div className="flex flex-col lg:flex-row gap-1 w-full ">
+            <IntervalSelect
+              name="interval"
+              value={filters.interval}
+              onChange={(interval) => updateFilter("interval", interval)}
+            />
+            <div className="flex flex-col gap-1 w-full">
+              <Label htmlFor="minDate">Date Range:</Label>
+              <div className="flex gap-2 items-center">
+                <Input
+                  id="minDate"
+                  type="date"
+                  name="minDate"
+                  value={filters.minDate}
+                  onChange={(v) => updateFilter("minDate", v.target.value)}
+                />
+                <span className="text-sm text-muted-foreground">to</span>
+                <Input
+                  type="date"
+                  name="maxDate"
+                  value={filters.maxDate}
+                  onChange={(v) => updateFilter("maxDate", v.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default FilterPanel;
