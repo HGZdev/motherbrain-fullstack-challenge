@@ -4,6 +4,7 @@ import DescriptionPanel from "./Components/DescriptionPanel";
 
 import TitlePanel from "./Components/TitlePanel";
 import "./styles/tailwind.css";
+import ExamplesPanel from "./Components/Panels/ExamplesPanel";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <TitlePanel />
       <FilterPanel />
       <ChartPanel />
+      <ExamplesPanel />
       <DescriptionPanel />
     </div>
   );
