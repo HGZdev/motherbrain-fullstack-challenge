@@ -6,6 +6,8 @@ import { Input } from "../Components/ui/input";
 import { Card, CardContent } from "../Components/ui/card";
 import { Label } from "../Components/ui/label";
 import OrgSearchTextInput from "../Components/Inputs/OrgSearchTextInput";
+import { DualRangeSlider } from "../Components/ui/slider";
+import RoundsSliderInput from "../Components/Inputs/RoundsSliderInput";
 
 const FilterPanel: React.FC = () => {
   const { filters, updateFilter } = useFilters();
@@ -20,15 +22,24 @@ const FilterPanel: React.FC = () => {
           onChange={(ids) => updateFilter("orgIds", ids)}
           orgSearchText={filters.orgSearchText}
         />
-        <div className="flex flex-col lg:flex-row  gap-4 w-full items-end">
+        <div className="flex flex-col lg:flex-row  gap-4 w-full items-end ">
           <OrgSearchTextInput
             name="orgSearchText"
             value={filters.orgSearchText}
             onChange={(v) => updateFilter("orgSearchText", v)}
             placeholder="Search in names and descriptions"
           />
-
-          <div className="flex flex-col lg:flex-row gap-1 w-full ">
+          <RoundsSliderInput
+            min={1}
+            max={12}
+            step={1}
+            // value={[filters.minValue, filters.maxValue]}
+            // onChange={(values) => {
+            //   updateFilter("minValue", values[0]);
+            //   updateFilter("maxValue", values[1]);
+            // }}
+          />
+          <div className="flex flex-col lg:flex-row gap-1 w-full min-w-[400px]">
             <IntervalSelect
               name="interval"
               value={filters.interval}
