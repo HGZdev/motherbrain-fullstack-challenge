@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { OrgRoundsGrouped } from "../../types";
 import { Card } from "../ui/card";
-import { useIsMobile, useIsTablet } from "../../hooks";
+import { useIsMobile, useIsTablet } from "../../helpersHooks";
 import { formatMoney } from "../../helpers";
 import { Payload } from "recharts/types/component/DefaultLegendContent";
 import { ReactNode } from "react";

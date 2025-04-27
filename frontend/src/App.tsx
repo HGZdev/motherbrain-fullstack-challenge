@@ -1,10 +1,10 @@
-import FilterPanel from "./Components/FilterPanel";
-import ChartPanel from "./Components/ChartPanel";
-import DescriptionPanel from "./Components/DescriptionPanel";
+import FilterPanel from "./Panels/FilterPanel";
+import ChartPanel from "./Panels/ChartPanel";
+import DescriptionPanel from "./Panels/DescriptionPanel";
 
-import TitlePanel from "./Components/TitlePanel";
+import TitlePanel from "./Panels/TitlePanel";
 import "./styles/tailwind.css";
-import ExamplesPanel from "./Components/Panels/ExamplesPanel";
+import ExamplesPanel from "./Panels/ExamplesPanel";
 
 function App() {
   return (

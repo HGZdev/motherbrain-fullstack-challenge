@@ -1,11 +1,11 @@
 import React from "react";
-import { Card } from "./ui/card";
+import { Card } from "../Components/ui/card";
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "./ui/accordion";
+} from "../Components/ui/accordion";
 import { Info, Lightbulb, Rocket, Wrench } from "lucide-react";
 
 const ReusableAccordionItem: React.FC<{
