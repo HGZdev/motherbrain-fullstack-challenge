@@ -1,11 +1,11 @@
 import React from "react";
 import { useFilters } from "../Context/FiltersContext";
-import OrgsSelect from "./Inputs/OrgsSelect";
-import IntervalSelect from "./Inputs/IntervalSelect";
-import { Input } from "./ui/input";
-import { Card, CardContent } from "./ui/card";
-import { Label } from "./ui/label";
-import OrgSearchTextInput from "./Inputs/OrgSearchTextInput";
+import OrgsSelect from "../Components/Inputs/OrgsSelect";
+import IntervalSelect from "../Components/Inputs/IntervalSelect";
+import { Input } from "../Components/ui/input";
+import { Card, CardContent } from "../Components/ui/card";
+import { Label } from "../Components/ui/label";
+import OrgSearchTextInput from "../Components/Inputs/OrgSearchTextInput";
 
 const FilterPanel: React.FC = () => {
   const { filters, updateFilter } = useFilters();

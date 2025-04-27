@@ -47,11 +47,12 @@ const getFiltersFromURL = (): FilterState => {
 
   params.forEach((value, key) => {
     if (key in filters) {
-      const parserVal = parseParamToValue(value);
+      const parsedValue = parseParamToValue(value);
       // @ts-ignore
-      filters[key] = parserVal;
+      filters[key] = parsedValue;
     }
   });
+
   return filters;
 };
 
@@ -68,6 +69,10 @@ export const FiltersProvider: React.FC<{ children: React.ReactNode }> = ({
       // @ts-ignore
       if (Array.isArray(filters[key]) && filters[key].length === 0) {
         params.delete(key);
+        // @ts-ignore
+      } else if (Array.isArray(filters[key])) {
+        // @ts-ignore
+        params.set(key, filters[key].join(","));
         // @ts-ignore
       } else if (filters[key]) {
         // @ts-ignore

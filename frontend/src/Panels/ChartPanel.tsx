@@ -1,7 +1,7 @@
 import { useFilters } from "../Context/FiltersContext";
 import { useOrgsRoundsGrouped } from "../queries";
-import { Chart } from "./Charts/Chart";
-import { Card } from "./ui/card";
+import { Chart } from "../Components/Charts/Chart";
+import { Card } from "../Components/ui/card";
 
 const ChartPanel = () => {
   const { filters } = useFilters();
