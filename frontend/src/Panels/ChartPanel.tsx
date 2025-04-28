@@ -16,7 +16,12 @@ const ChartPanel = () => {
   );
 
   if (!data && !previousData && loading) return <p>Loading...</p>;
-  if (error) return <p className="text-base text-destructive">Error!</p>;
+
+  if (error) {
+    console.error("Error fetching data:", error);
+    return <p className="text-base text-destructive">Error!</p>;
+  }
+
   if (!filters.orgIds?.length) {
     return (
       <Card className="text-base text-destructive">
@@ -25,8 +30,9 @@ const ChartPanel = () => {
     );
   }
 
-  const orgsRoundsGrouped = (data || previousData)?.orgsRoundsGrouped || [];
-  if (!orgsRoundsGrouped.length) {
+  const orgsRoundsGrouped = (data || previousData)?.orgsRoundsGrouped?.data;
+
+  if (!orgsRoundsGrouped?.length) {
     return <Card>No data available for the selected filters</Card>;
   }
 

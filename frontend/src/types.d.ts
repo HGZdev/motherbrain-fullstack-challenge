@@ -28,10 +28,17 @@ export type OrgRoundsGrouped = {
   organizationId: Org["id"];
   period: string;
   roundsCount: number;
+  trendAmount: number | null;
+};
+
+export type Trend = {
+  slope: number | null;
+  intercept: number | null;
 };
 
 export type OrgsRoundsGroupedQuery = {
-  orgsRoundsGrouped: OrgRoundsGrouped[];
+  data: OrgRoundsGrouped[];
+  trend: Trend;
 };
 
 export type FilterState = {

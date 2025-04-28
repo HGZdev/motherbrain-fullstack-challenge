@@ -36,16 +36,23 @@ export const ORGS_QUERY = gql`
 `;
 
 export const ORGS_ROUNDS_GROUPED = gql`
+  fragment TrendFragment on Trend {
+    slope
+    intercept
+  }
+
   fragment OrgRoundsGroupedFragment on OrgRoundsGrouped {
     amountTotal
     fundingSpeed
-    period
-    roundsCount
     organizationId
     organization {
       name
     }
+    period
+    roundsCount
+    trendAmount
   }
+
   query orgsRoundsGrouped(
     $interval: Interval!
     $orgIds: [String]
@@ -58,8 +65,12 @@ export const ORGS_ROUNDS_GROUPED = gql`
       minDate: $minDate
       maxDate: $maxDate
     ) {
-      ...OrgRoundsGroupedFragment
-      __typename
+      data {
+        ...OrgRoundsGroupedFragment
+      }
+      trend {
+        ...TrendFragment
+      }
     }
   }
 `;
@@ -109,9 +120,12 @@ export const useOrgsRoundsGrouped = (
   } = { interval: "day" },
   options = {}
 ) => {
-  const query = useQuery<OrgsRoundsGroupedQuery>(ORGS_ROUNDS_GROUPED, {
-    ...options,
-    variables: args,
-  });
+  const query = useQuery<{ orgsRoundsGrouped: OrgsRoundsGroupedQuery }>(
+    ORGS_ROUNDS_GROUPED,
+    {
+      ...options,
+      variables: args,
+    }
+  );
   return query;
 };

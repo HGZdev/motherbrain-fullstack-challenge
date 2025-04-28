@@ -1175,8 +1175,8 @@ describe("calculateLinearTrend", () => {
     ];
     const result = calculateLinearTrend(data);
     expect(result).toEqual({
-      slope: expect.any(Number),
-      intercept: expect.any(Number),
+      slope: 0.0000011574073685515431,
+      intercept: -1972199.933783639,
       trendLine: expect.any(Function),
     });
     expect(result?.trendLine(data[0].time)).toBeCloseTo(100);

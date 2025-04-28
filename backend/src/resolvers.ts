@@ -66,6 +66,7 @@ export const resolvers = {
           amount: amountTotal,
         };
         trendData.push(trendPoint);
+
         return {
           ...g,
           trendAmount: trendPoint.amount,
@@ -73,10 +74,11 @@ export const resolvers = {
       });
       const trend = calculateLinearTrend(trendData);
 
-      return {
+      const res = {
         data: addMissingEmptyPeriods(groupedWithTrendPoints, interval),
         trend,
       };
+      return res;
     },
   },
 };

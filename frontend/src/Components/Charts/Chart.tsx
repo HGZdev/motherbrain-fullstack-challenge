@@ -31,9 +31,10 @@ export const Chart = ({ data }: { data: OrgRoundsGrouped[] }) => {
     ([period, items = []]) => {
       const periodData: Record<string, number | string | null> = { period };
       items.forEach((item) => {
-        periodData[`${item.organizationId}_total`] = item.amountTotal;
-        periodData[`${item.organizationId}_rounds`] = item.roundsCount;
-        periodData[`${item.organizationId}_speed`] = item.fundingSpeed;
+        periodData[`${item.organizationId}_amountTotal`] = item.amountTotal;
+        periodData[`${item.organizationId}_roundsCount`] = item.roundsCount;
+        periodData[`${item.organizationId}_fundingSpeed`] = item.fundingSpeed;
+        periodData[`${item.organizationId}_trendAmount`] = item.trendAmount;
       });
       return periodData;
     }
@@ -178,15 +179,22 @@ export const Chart = ({ data }: { data: OrgRoundsGrouped[] }) => {
             yAxisId="right"
             {...YAxisOptions({
               orientation: "right",
-              title: "Funding speed [€ / day]",
+              title: "trend line",
             })}
           />
+          {/* <YAxis
+            yAxisId="right"
+            {...YAxisOptions({
+              orientation: "right",
+              title: "Funding speed [€ / day]",
+            })}
+          /> */}
           <Tooltip content={CustomTooltip} />
           <Legend content={CustomLegend} />
           {orgIds.map((orgId, i) => (
             <Bar
-              key={`${orgId}_total`}
-              dataKey={`${orgId}_total`}
+              key={`${orgId}_amountTotal`}
+              dataKey={`${orgId}_amountTotal`}
               yAxisId="left"
               stackId="a"
               name={`${
@@ -200,8 +208,25 @@ export const Chart = ({ data }: { data: OrgRoundsGrouped[] }) => {
           ))}
           {orgIds.map((orgId, i) => (
             <Line
-              key={`${orgId}_speed`}
-              dataKey={`${orgId}_speed`}
+              key={`${orgId}_trendAmount`}
+              dataKey={`${orgId}_trendAmount`}
+              yAxisId="right"
+              name={`${
+                data.find((item) => item.organizationId === orgId)?.organization
+                  .name
+              } - trend line`}
+              stroke={`var(--chart-${i + 1})`}
+              strokeWidth={2.5}
+              strokeDasharray="3 5"
+              fill={`var(--chart-${i + 1})`}
+              type="monotone"
+              connectNulls
+            ></Line>
+          ))}
+          {/* {orgIds.map((orgId, i) => (
+            <Line
+              key={`${orgId}_fundingSpeed`}
+              dataKey={`${orgId}_fundingSpeed`}
               yAxisId="right"
               name={`${
                 data.find((item) => item.organizationId === orgId)?.organization
@@ -214,7 +239,7 @@ export const Chart = ({ data }: { data: OrgRoundsGrouped[] }) => {
               type="monotone"
               connectNulls
             ></Line>
-          ))}
+          ))} */}
         </ComposedChart>
       </ResponsiveContainer>
     </Card>
