@@ -1,5 +1,3 @@
-import { FundingRound } from "@prisma/client";
-
 export const mockRoundsTwoOrgs = [
   {
     id: "321638d1-21e4-43f5-918b-43671ac6b6b1",

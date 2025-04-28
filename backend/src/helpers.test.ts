@@ -2,6 +2,7 @@ import { describe, test, expect } from "vitest";
 import {
   groupAmountByOrgAndTimeInterval,
   addMissingEmptyPeriods,
+  calculateLinearTrend,
 } from "./helpers";
 import { mockRoundsTwoOrgs } from "./mocks/rounds";
 import { OrgRoundsGrouped } from "./types";
@@ -25,6 +26,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-04-11",
           "periodStartDate": "2024-04-11",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 0,
@@ -39,6 +41,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-05-05",
           "periodStartDate": "2024-05-05",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 24056,
@@ -53,6 +56,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-05-16",
           "periodStartDate": "2024-05-16",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 63122,
@@ -67,6 +71,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-05-16",
           "periodStartDate": "2024-05-16",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 11900,
@@ -81,6 +86,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-05-24",
           "periodStartDate": "2024-05-24",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 3305,
@@ -95,6 +101,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-07-05",
           "periodStartDate": "2024-07-05",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 37284,
@@ -109,6 +116,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-07-07",
           "periodStartDate": "2024-07-07",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -22529,
@@ -123,6 +131,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-07-30",
           "periodStartDate": "2024-07-30",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -1110,
@@ -137,6 +146,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-08-24",
           "periodStartDate": "2024-08-24",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -5347,
@@ -151,6 +161,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-09-12",
           "periodStartDate": "2024-09-12",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -67916,
@@ -165,6 +176,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-09-14",
           "periodStartDate": "2024-09-14",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 3621,
@@ -179,6 +191,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-09-19",
           "periodStartDate": "2024-09-19",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -20827,
@@ -193,6 +206,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-10-18",
           "periodStartDate": "2024-10-18",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 29820,
@@ -207,6 +221,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-11-03",
           "periodStartDate": "2024-11-03",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -5267,
@@ -221,6 +236,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-12-17",
           "periodStartDate": "2024-12-17",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 16026,
@@ -235,6 +251,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2025-02-11",
           "periodStartDate": "2025-02-11",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -32735,
@@ -249,6 +266,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2025-03-02",
           "periodStartDate": "2025-03-02",
           "roundsCount": 1,
+          "trendAmount": null,
         },
       ]
     `);
@@ -271,6 +289,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-04-14",
           "periodStartDate": "2024-04-08",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 0,
@@ -285,6 +304,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-05-05",
           "periodStartDate": "2024-04-29",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 24056,
@@ -299,6 +319,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-05-19",
           "periodStartDate": "2024-05-13",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 63122,
@@ -313,6 +334,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-05-19",
           "periodStartDate": "2024-05-13",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 11900,
@@ -327,6 +349,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-05-26",
           "periodStartDate": "2024-05-20",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 97884,
@@ -341,6 +364,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-07-07",
           "periodStartDate": "2024-07-01",
           "roundsCount": 2,
+          "trendAmount": null,
         },
         {
           "amountChange": -22529,
@@ -355,6 +379,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-08-04",
           "periodStartDate": "2024-07-29",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -58405,
@@ -369,6 +394,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-08-25",
           "periodStartDate": "2024-08-19",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -5347,
@@ -383,6 +409,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-09-15",
           "periodStartDate": "2024-09-09",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -67916,
@@ -397,6 +424,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-09-15",
           "periodStartDate": "2024-09-09",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 3621,
@@ -411,6 +439,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-09-22",
           "periodStartDate": "2024-09-16",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -20827,
@@ -425,6 +454,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-10-20",
           "periodStartDate": "2024-10-14",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 29820,
@@ -439,6 +469,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-11-03",
           "periodStartDate": "2024-10-28",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -5267,
@@ -453,6 +484,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-12-22",
           "periodStartDate": "2024-12-16",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": 16026,
@@ -467,6 +499,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2025-02-16",
           "periodStartDate": "2025-02-10",
           "roundsCount": 1,
+          "trendAmount": null,
         },
         {
           "amountChange": -32735,
@@ -481,6 +514,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2025-03-02",
           "periodStartDate": "2025-02-24",
           "roundsCount": 1,
+          "trendAmount": null,
         },
       ]
     `);
@@ -505,6 +539,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-06-30",
           "periodStartDate": "2024-04-01",
           "roundsCount": 3,
+          "trendAmount": null,
         },
         {
           "amountChange": 0,
@@ -519,6 +554,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-06-30",
           "periodStartDate": "2024-04-01",
           "roundsCount": 2,
+          "trendAmount": null,
         },
         {
           "amountChange": 185956,
@@ -533,6 +569,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-09-30",
           "periodStartDate": "2024-07-01",
           "roundsCount": 5,
+          "trendAmount": null,
         },
         {
           "amountChange": 12717,
@@ -547,6 +584,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-09-30",
           "periodStartDate": "2024-07-01",
           "roundsCount": 2,
+          "trendAmount": null,
         },
         {
           "amountChange": 48723,
@@ -561,6 +599,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-12-31",
           "periodStartDate": "2024-10-01",
           "roundsCount": 3,
+          "trendAmount": null,
         },
         {
           "amountChange": -242405,
@@ -575,6 +614,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2025-03-31",
           "periodStartDate": "2025-01-01",
           "roundsCount": 2,
+          "trendAmount": null,
         },
       ]
     `);
@@ -596,6 +636,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-12-31",
           "periodStartDate": "2024-01-01",
           "roundsCount": 8,
+          "trendAmount": null,
         },
         {
           "amountChange": 0,
@@ -610,6 +651,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2024-12-31",
           "periodStartDate": "2024-01-01",
           "roundsCount": 7,
+          "trendAmount": null,
         },
         {
           "amountChange": -356519,
@@ -624,6 +666,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "2025-12-31",
           "periodStartDate": "2025-01-01",
           "roundsCount": 2,
+          "trendAmount": null,
         },
       ]
     `);
@@ -646,6 +689,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "",
           "periodStartDate": "",
           "roundsCount": 10,
+          "trendAmount": null,
         },
         {
           "amountChange": 0,
@@ -660,6 +704,7 @@ describe("groupAmountByOrgAndTimeInterval", () => {
           "periodEndDate": "",
           "periodStartDate": "",
           "roundsCount": 7,
+          "trendAmount": null,
         },
       ]
     `);
@@ -757,6 +802,7 @@ describe("addMissingEmptyPeriods", () => {
           "periodEndDate": "2024-04-14",
           "periodStartDate": "2024-04-08",
           "roundsCount": 0,
+          "trendAmount": null,
         },
         {
           "amountChange": 100,
@@ -872,6 +918,7 @@ describe("addMissingEmptyPeriods", () => {
           "periodEndDate": "2024-04-14",
           "periodStartDate": "2024-04-08",
           "roundsCount": 0,
+          "trendAmount": null,
         },
         {
           "amountChange": 0,
@@ -886,6 +933,7 @@ describe("addMissingEmptyPeriods", () => {
           "periodEndDate": "2024-04-14",
           "periodStartDate": "2024-04-08",
           "roundsCount": 0,
+          "trendAmount": null,
         },
         {
           "amountChange": 200,
@@ -978,6 +1026,7 @@ describe("addMissingEmptyPeriods", () => {
           "periodEndDate": "2024-02-29",
           "periodStartDate": "2024-02-01",
           "roundsCount": 0,
+          "trendAmount": null,
         },
         {
           "amountChange": 100,
@@ -1056,6 +1105,7 @@ describe("addMissingEmptyPeriods", () => {
           "periodEndDate": "2024-06-30",
           "periodStartDate": "2024-04-01",
           "roundsCount": 0,
+          "trendAmount": null,
         },
         {
           "amountChange": 100,
@@ -1081,5 +1131,56 @@ describe("addMissingEmptyPeriods", () => {
     const result = addMissingEmptyPeriods(grouped, "month");
 
     expect(result).toEqual([]);
+  });
+});
+
+describe("calculateLinearTrend", () => {
+  test("should return null for an empty dataset", () => {
+    const data: { time: number; amount: number }[] = [];
+    const result = calculateLinearTrend(data);
+    expect(result).toBeNull();
+  });
+
+  test("should return slope 0 and intercept equal to the amount for a single data point", () => {
+    const data = [{ time: new Date("2024-01-01").getTime(), amount: 100 }];
+    const result = calculateLinearTrend(data);
+    expect(result).toEqual({
+      slope: 0,
+      intercept: 100,
+      trendLine: expect.any(Function),
+    });
+    expect(result?.trendLine(data[0].time)).toBe(100);
+  });
+
+  test("should calculate slope and intercept for two data points", () => {
+    const data = [
+      { time: new Date("2024-01-01").getTime(), amount: 100 },
+      { time: new Date("2024-01-02").getTime(), amount: 200 },
+    ];
+    const result = calculateLinearTrend(data);
+    expect(result).toEqual({
+      slope: 100 / (data[1].time - data[0].time),
+      intercept: 100 - (100 / (data[1].time - data[0].time)) * data[0].time,
+      trendLine: expect.any(Function),
+    });
+    expect(result?.trendLine(data[0].time)).toBeCloseTo(100);
+    expect(result?.trendLine(data[1].time)).toBeCloseTo(200);
+  });
+
+  test("should calculate slope and intercept for multiple data points using linear regression", () => {
+    const data = [
+      { time: new Date("2024-01-01").getTime(), amount: 100 },
+      { time: new Date("2024-01-02").getTime(), amount: 200 },
+      { time: new Date("2024-01-03").getTime(), amount: 300 },
+    ];
+    const result = calculateLinearTrend(data);
+    expect(result).toEqual({
+      slope: expect.any(Number),
+      intercept: expect.any(Number),
+      trendLine: expect.any(Function),
+    });
+    expect(result?.trendLine(data[0].time)).toBeCloseTo(100);
+    expect(result?.trendLine(data[1].time)).toBeCloseTo(200);
+    expect(result?.trendLine(data[2].time)).toBeCloseTo(300);
   });
 });

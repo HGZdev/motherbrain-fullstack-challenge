@@ -7,6 +7,12 @@ export enum Interval {
   TOTAL = "total",
 }
 
+export type Trend = {
+  slope: number | null;
+  intercept: number | null;
+  trendLine: string | null;
+};
+
 export type OrgRoundsGrouped = {
   amountChange: number | null;
   amountChangePercentage: number | null;
@@ -18,4 +24,5 @@ export type OrgRoundsGrouped = {
   periodEndDate: string;
   periodStartDate: string;
   roundsCount: number;
+  trendAmount: number | null;
 };

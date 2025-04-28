@@ -17,6 +17,7 @@ import {
   startOfYear,
 } from "date-fns";
 import { OrgRoundsGrouped, Interval } from "./types";
+import { linearRegression, linearRegressionLine } from "simple-statistics";
 
 /**
  * Calculate the start and end dates of a period based on the given date and interval.
@@ -126,6 +127,7 @@ export function groupAmountByOrgAndTimeInterval(
       amountChangePercentage: 0,
       roundsCount: 0,
       fundingSpeed: 0,
+      trendAmount: null,
     };
 
     currentEntry.amountTotal += round.amount;
@@ -135,11 +137,7 @@ export function groupAmountByOrgAndTimeInterval(
     return acc;
   }, {} as Record<string, OrgRoundsGrouped>);
 
-  const entries = Object.values(grouped).sort(
-    (a, b) =>
-      new Date(a.periodStartDate).getTime() -
-      new Date(b.periodStartDate).getTime()
-  );
+  const entries = Object.values(grouped);
 
   const final: typeof entries = [];
   const lastTotalPerOrg: Record<string, number> = {};
@@ -244,6 +242,7 @@ export const addMissingEmptyPeriods = (
           amountChangePercentage: 0,
           roundsCount: 0,
           fundingSpeed: null,
+          trendAmount: null,
         };
       } else {
         // Update the last known fundingSpeed for this organization
@@ -271,3 +270,47 @@ export const addMissingEmptyPeriods = (
       new Date(b.periodStartDate).getTime()
   );
 };
+
+/**
+ * Calculate the linear trend of a dataset using linear regression.
+ * @param data - An array of objects containing time and amount properties.
+ * @returns An object containing the slope, intercept, and a function to calculate the trend line.
+ * If the dataset is empty, returns null.
+ * If the dataset has one point, returns a slope of 0 and the amount of that point as the intercept.
+ * If the dataset has two points, returns a slope of 0 and the amount of that point as the intercept.
+ * If the dataset has more than two points, uses linear regression to calculate the slope and intercept.
+ */
+export function calculateLinearTrend(data: { time: number; amount: number }[]) {
+  if (data.length === 0) {
+    return null;
+  }
+
+  if (data.length === 1) {
+    return {
+      slope: 0,
+      intercept: data[0].amount,
+      trendLine: (x: number) => data[0].amount,
+    };
+  }
+
+  if (data.length === 2) {
+    const [p1, p2] = data;
+    const slope = (p2.amount - p1.amount) / (p2.time - p1.time);
+    const intercept = p1.amount - slope * p1.time;
+
+    return {
+      slope,
+      intercept,
+      trendLine: (x: number) => slope * x + intercept,
+    };
+  }
+
+  const regressionData = data.map((point) => [point.time, point.amount]);
+  const regression = linearRegression(regressionData);
+
+  return {
+    slope: regression.m,
+    intercept: regression.b,
+    trendLine: linearRegressionLine(regression),
+  };
+}

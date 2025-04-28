@@ -25,6 +25,12 @@ export const typeDefs = gql`
     description: String!
   }
 
+  type Trend {
+    slope: Float
+    intercept: Float
+    trendLine: String
+  }
+
   type OrgRoundsGrouped {
     amountChange: Int
     amountChangePercentage: Float
@@ -36,6 +42,12 @@ export const typeDefs = gql`
     periodStartDate: String!
     periodEndDate: String!
     roundsCount: Int!
+    trendAmount: Float
+  }
+
+  type OrgsRoundsGroupedResult {
+    data: [OrgRoundsGrouped!]
+    trend: Trend
   }
 
   type Query {
@@ -48,6 +60,6 @@ export const typeDefs = gql`
       orgIds: [String]
       minDate: String
       maxDate: String
-    ): [OrgRoundsGrouped!]
+    ): OrgsRoundsGroupedResult!
   }
 `;
